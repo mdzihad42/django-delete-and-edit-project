@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    form {
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-top: 15px;
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    input[type=text], select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type=text]:focus, select:focus {
+      border-color: #4CAF50;
+      outline: none;
+    }
+
+    input[type=submit] {
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px;
+      margin-top: 24px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type=submit]:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+<h2 style="text-align:center; color:#04AA6D; margin-bottom: 20px;">Edit Doctor</h2>
+
+<form action="" method="POST">
+  {% csrf_token %}
+  
+  <label for="fname">Name</label>
+  <input type="text" id="fname" name="name" value="{{ doctor.name }}" placeholder="Your name..">
+  
+  <label for="specialization">Specialization</label>
+  <select id="specialization" name="specialization">
+    <option value="Neurologist" {% if doctor.specialization == 'Neurologist' %}selected{% endif %}>Neurologist</option>
+    <option value="Psychiatrist" {% if doctor.specialization == 'Psychiatrist' %}selected{% endif %}>Psychiatrist</option>
+    <option value="Pathologist" {% if doctor.specialization == 'Pathologist' %}selected{% endif %}>Pathologist</option>
+  </select>
+  
+  <label for="phone">Phone</label>
+  <input type="text" id="phone" name="phone" value="{{ doctor.phone }}" placeholder="Your phone..">
+  
+  <label for="email">Email</label>
+  <input type="text" id="email" name="email" value="{{ doctor.email }}" placeholder="Your email..">
+  
+  <label for="department">Department</label>
+  <select name="department" id="department">
+    <option value="">--select--</option>
+    {% for dept in dept_data %}
+      <option value="{{ dept.id }}" {% if doctor.department.id == dept.id %}selected{% endif %}>
+        {{ dept.id }} - {{ dept.name }} - {{ dept.location }}
+      </option>
+    {% endfor %}
+  </select>
+  
+  <input type="submit" value="Edit">
+</form>
+
+</body>
+</html>
+{% endblock body %}
